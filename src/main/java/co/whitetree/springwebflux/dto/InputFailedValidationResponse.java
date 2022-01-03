@@ -1,12 +1,16 @@
 package co.whitetree.springwebflux.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Getter
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class InputFailedValidationResponse {
-    private final int errorCode;
-    private final int input;
-    private final String message;
+    private int errorCode;
+    private int input;
+    private String message;
 }
