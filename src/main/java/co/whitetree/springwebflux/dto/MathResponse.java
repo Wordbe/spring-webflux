@@ -1,13 +1,17 @@
 package co.whitetree.springwebflux.dto;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 
 @Getter
+@NoArgsConstructor
+@ToString
 public class MathResponse {
-    private final LocalDateTime date = LocalDateTime.now();
-    private final int output;
+    private LocalDateTime date = LocalDateTime.now();
+    private int output;
 
     public MathResponse(int output) {
         this.output = output;
