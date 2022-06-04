@@ -13,6 +13,9 @@ import reactor.test.StepVerifier;
 
 import static org.assertj.core.api.Assertions.*;
 
+/**
+ * Integration Test
+ */
 @SpringBootTest
 @AutoConfigureWebTestClient
 public class WebFlux01SimpleWebTestClientTest {
