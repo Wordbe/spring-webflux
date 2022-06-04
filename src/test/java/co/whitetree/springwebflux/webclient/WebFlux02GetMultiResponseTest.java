@@ -1,4 +1,4 @@
-package co.whitetree.springwebflux;
+package co.whitetree.springwebflux.webclient;
 
 import co.whitetree.springwebflux.dto.MathResponse;
 import org.junit.jupiter.api.Test;

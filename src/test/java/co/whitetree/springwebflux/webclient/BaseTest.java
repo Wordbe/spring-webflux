@@ -1,4 +1,4 @@
-package co.whitetree.springwebflux;
+package co.whitetree.springwebflux.webclient;
 
 import org.springframework.boot.test.context.SpringBootTest;
 

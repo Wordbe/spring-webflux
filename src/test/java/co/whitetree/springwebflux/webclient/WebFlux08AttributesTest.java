@@ -1,4 +1,4 @@
-package co.whitetree.springwebflux;
+package co.whitetree.springwebflux.webclient;
 
 import co.whitetree.springwebflux.dto.MathResponse;
 import co.whitetree.springwebflux.dto.MultiplyRequestDto;
@@ -8,17 +8,19 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
-public class WebFlux03PostRequestTest extends BaseTest {
+public class WebFlux08AttributesTest extends BaseTest {
 
     @Autowired
     WebClient webClient;
 
     @Test
-    void post() {
+    void headers() {
         Mono<MathResponse> responseMono = webClient
                 .post()
                 .uri("reactive-math/multiply")
                 .bodyValue(new MultiplyRequestDto(5, 2))
+//                .attribute("auth", "basic")
+                .attribute("auth", "oauth")
                 .retrieve()
                 .bodyToMono(MathResponse.class)
                 .doOnNext(System.out::println);

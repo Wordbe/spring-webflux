@@ -1,4 +1,4 @@
-package co.whitetree.springwebflux;
+package co.whitetree.springwebflux.webclient;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
