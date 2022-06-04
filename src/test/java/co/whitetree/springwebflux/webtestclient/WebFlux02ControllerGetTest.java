@@ -1,5 +1,6 @@
 package co.whitetree.springwebflux.webtestclient;
 
+import co.whitetree.springwebflux.controller.ParamsController;
 import co.whitetree.springwebflux.controller.ReactiveMathController;
 import co.whitetree.springwebflux.dto.MathResponse;
 import co.whitetree.springwebflux.service.ReactiveMathService;
@@ -12,11 +13,14 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.Duration;
+import java.util.Map;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.anyInt;
 import static org.mockito.Mockito.when;
 
-@WebFluxTest(value = {ReactiveMathController.class})
+@WebFluxTest(controllers = {ReactiveMathController.class, ParamsController.class})
 public class WebFlux02ControllerGetTest {
 
     @Autowired
@@ -51,5 +55,34 @@ public class WebFlux02ControllerGetTest {
                 .expectHeader().contentType(MediaType.APPLICATION_JSON)
                 .expectBodyList(MathResponse.class)
                 .hasSize(3);
+    }
+
+    @Test
+    public void streamResponseTest() {
+        Flux<MathResponse> flux = Flux.range(1, 3)
+                .map(MathResponse::new)
+                .delayElements(Duration.ofMillis(100));
+        when(reactiveMathService.multiplicationTable(anyInt())).thenReturn(flux);
+
+        client.get()
+                .uri("/reactive-math/table/{number}/stream", 5)
+                .exchange()
+                .expectStatus().is2xxSuccessful()
+                .expectHeader().contentTypeCompatibleWith(MediaType.TEXT_EVENT_STREAM)
+                .expectBodyList(MathResponse.class)
+                .hasSize(3);
+    }
+
+    @Test
+    public void queryParamsTest() {
+        Map<String, Integer> params = Map.of("count", 10, "page", 20);
+
+        client.get()
+                .uri(uriBuilder -> uriBuilder.path("/jobs/search").query("count={count}&page={page}").build(params))
+                .exchange()
+                .expectStatus().is2xxSuccessful()
+                .expectBodyList(Integer.class)
+                .hasSize(2)
+                .contains(10, 20);
     }
 }
